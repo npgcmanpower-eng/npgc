@@ -1,0 +1,6 @@
+{
+  "name": "New Path Global Career Manpower",
+  "description": "Official portal of New Path Global Career Manpower Pvt. Ltd. Global healthcare recruitment, medical placement, international licensing training, and overseas immigration pathways.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

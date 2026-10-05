@@ -29,6 +29,9 @@ export const DestinationsSection: React.FC<DestinationsSectionProps> = ({ onSele
         <div className="relative rounded-2xl overflow-hidden mb-12 shadow-sm border border-slate-200 bg-slate-900">
           <img
             src={hospitalCampusImg}
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=1200&q=80";
+            }}
             alt="International hospital medical campus and modern glass pavilion"
             className="w-full h-56 sm:h-72 lg:h-80 object-cover opacity-90"
             referrerPolicy="no-referrer"

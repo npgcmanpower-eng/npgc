@@ -96,10 +96,7 @@ export const Hero: React.FC<HeroProps> = ({
           <div className="lg:col-span-5 relative">
             <div className="relative rounded-2xl overflow-hidden shadow-xl border border-slate-200/80 bg-slate-900 group">
               <img
-                src={heroImg}
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=1200&q=80";
-                }}
+                src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=1600&q=80"
                 alt="International healthcare professionals and surgeons in modern hospital environment"
                 className="w-full aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-102"
                 referrerPolicy="no-referrer"

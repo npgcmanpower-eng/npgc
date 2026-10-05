@@ -79,10 +79,7 @@ export const LicensingSection: React.FC<LicensingSectionProps> = ({ onSelectExam
 
             <div className="lg:col-span-5 relative h-64 lg:h-full min-h-[280px]">
               <img
-                src={globalLicensingImg}
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1000&q=80";
-                }}
+                src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1200&q=80"
                 alt="Healthcare professionals in training lab reviewing licensing exam study material"
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"

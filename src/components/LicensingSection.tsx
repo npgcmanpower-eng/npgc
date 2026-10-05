@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { BookOpen, CheckCircle, Search, Award, HelpCircle, ArrowRight, ShieldAlert, Sparkles } from 'lucide-react';
 import { LICENSING_EXAMS } from '../data/companyData';
 import { LicensingExamItem } from '../types';
+import globalLicensingImg from '../assets/images/global_licensing_training_1791195649975.jpg';
 
 interface LicensingSectionProps {
   onSelectExam: (examCode: string) => void;
@@ -78,7 +79,7 @@ export const LicensingSection: React.FC<LicensingSectionProps> = ({ onSelectExam
 
             <div className="lg:col-span-5 relative h-64 lg:h-full min-h-[280px]">
               <img
-                src="/src/assets/images/global_licensing_training_1791195649975.jpg"
+                src={globalLicensingImg}
                 alt="Healthcare professionals in training lab reviewing licensing exam study material"
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Globe, MapPin, Check, AlertCircle, ArrowRight, ShieldCheck, Plane } from 'lucide-react';
 import { DESTINATIONS, COMPANY_INFO } from '../data/companyData';
+import hospitalCampusImg from '../assets/images/international_healthcare_hospital_1791195671312.jpg';
 
 interface DestinationsSectionProps {
   onSelectDestination: (destinationName: string) => void;
@@ -27,7 +28,7 @@ export const DestinationsSection: React.FC<DestinationsSectionProps> = ({ onSele
         {/* Global Campus Image Banner */}
         <div className="relative rounded-2xl overflow-hidden mb-12 shadow-sm border border-slate-200 bg-slate-900">
           <img
-            src="/src/assets/images/international_healthcare_hospital_1791195671312.jpg"
+            src={hospitalCampusImg}
             alt="International hospital medical campus and modern glass pavilion"
             className="w-full h-56 sm:h-72 lg:h-80 object-cover opacity-90"
             referrerPolicy="no-referrer"

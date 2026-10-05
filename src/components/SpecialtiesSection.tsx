@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Stethoscope, Check, ArrowRight, Sparkles, GraduationCap, MapPin, FileCheck2 } from 'lucide-react';
 import { MEDICAL_SPECIALTIES } from '../data/companyData';
 import { MedicalSpecialty } from '../types';
+import medicalDepartmentImg from '../assets/images/medical_department_placement_1791195626498.jpg';
 
 interface SpecialtiesSectionProps {
   onSelectSpecialty: (specialtyTitle: string) => void;
@@ -179,7 +180,7 @@ export const SpecialtiesSection: React.FC<SpecialtiesSectionProps> = ({ onSelect
             
             <div className="lg:col-span-5 relative h-64 lg:h-full min-h-[260px]">
               <img
-                src="/src/assets/images/medical_department_placement_1791195626498.jpg"
+                src={medicalDepartmentImg}
                 alt="Clinical nurse and doctor discussing patient digital diagnostic records"
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"

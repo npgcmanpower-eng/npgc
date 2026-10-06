@@ -26,24 +26,24 @@ export const DestinationsSection: React.FC<DestinationsSectionProps> = ({ onSele
         </div>
 
         {/* Global Campus Image Banner */}
-        <div className="relative rounded-2xl overflow-hidden mb-12 shadow-sm border border-slate-200 bg-slate-900">
+        <div className="relative rounded-2xl overflow-hidden mb-12 shadow-lg border border-slate-200/90 bg-slate-950 group">
           <img
             src="https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=1600&q=80"
             alt="International hospital medical campus and modern glass pavilion"
-            className="w-full h-56 sm:h-72 lg:h-80 object-cover opacity-90"
+            className="w-full h-64 sm:h-80 lg:h-96 object-cover opacity-90 transition-transform duration-700 group-hover:scale-102"
             referrerPolicy="no-referrer"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0a2540]/90 via-[#0a2540]/70 to-transparent flex items-center p-6 sm:p-12">
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0a2540]/95 via-[#0a2540]/75 to-transparent flex items-center p-6 sm:p-12">
             <div className="max-w-xl text-white">
-              <div className="flex items-center gap-2 text-xs font-bold text-emerald-400 uppercase tracking-wider mb-2">
-                <Plane className="w-4 h-4" />
+              <div className="inline-flex items-center gap-2 text-xs font-bold text-emerald-300 bg-emerald-950/80 px-3 py-1 rounded-full border border-emerald-500/30 uppercase tracking-wider mb-3">
+                <Plane className="w-3.5 h-3.5" />
                 <span>Verified Overseas Employment Contracts</span>
               </div>
-              <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-white leading-tight">
+              <h3 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white leading-tight">
                 Global Healthcare Manpower Deployments
               </h3>
-              <p className="mt-2 text-xs sm:text-sm text-slate-200 leading-relaxed">
-                Direct partnerships with major healthcare clusters across the Gulf Cooperation Council (UAE, KSA, Oman, Qatar), Ireland HSE, UK NHS, and North American institutions.
+              <p className="mt-3 text-xs sm:text-sm text-slate-200 leading-relaxed">
+                Direct partnerships with major healthcare clusters across the Gulf Cooperation Council (UAE DHA/MOH, Saudi SCFHS, Oman OMSB, Qatar DHP), Ireland HSE, UK NHS Trust, and North American hospitals.
               </p>
             </div>
           </div>

@@ -178,14 +178,20 @@ export const SpecialtiesSection: React.FC<SpecialtiesSectionProps> = ({ onSelect
         <div className="mt-12 bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs">
           <div className="grid grid-cols-1 lg:grid-cols-12 items-center">
             
-            <div className="lg:col-span-5 relative h-64 lg:h-full min-h-[260px]">
+            <div className="lg:col-span-5 relative h-72 lg:h-full min-h-[300px] overflow-hidden group">
               <img
                 src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=1200&q=80"
                 alt="Clinical nurse and doctor discussing patient digital diagnostic records"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 referrerPolicy="no-referrer"
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent to-white/40 lg:to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/20 to-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-white/10 pointer-events-none" />
+              <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-xs px-3 py-1.5 rounded-lg border border-slate-200/90 shadow-md">
+                <span className="text-[11px] font-bold text-[#0a2540] flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                  Primary Source Verified · DataFlow
+                </span>
+              </div>
             </div>
 
             <div className="lg:col-span-7 p-6 sm:p-10">

@@ -1,7 +1,8 @@
 import React from 'react';
-import { ArrowRight, CheckCircle2, ShieldCheck, Globe2, Award, Building2, Users } from 'lucide-react';
+import { ArrowRight, CheckCircle2, ShieldCheck, Globe2, Award, Building2, Users, Sparkles } from 'lucide-react';
 import { STATS, COMPANY_INFO } from '../data/companyData';
-import heroImg from '../assets/images/hero_healthcare_professionals_1791195614962.jpg';
+import logoImg from '../assets/images/logo.png';
+import groupDoctorsImg from '../assets/images/group_doctors.jpg';
 
 interface HeroProps {
   onOpenCandidateForm: () => void;
@@ -92,31 +93,38 @@ export const Hero: React.FC<HeroProps> = ({
 
           </div>
 
-          {/* Right Column: 16:9 Dominant Visual Asset with Contextual Overlay */}
+          {/* Right Column: Dominant Visual Asset with Official Credential Overlay */}
           <div className="lg:col-span-5 relative">
-            <div className="relative rounded-2xl overflow-hidden shadow-xl border border-slate-200/80 bg-slate-900 group">
+            <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-slate-200/90 bg-slate-900 group">
               <img
-                src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=1600&q=80"
-                alt="International healthcare professionals and surgeons in modern hospital environment"
+                src={groupDoctorsImg}
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=1600&q=80";
+                }}
+                alt="Group of specialist doctors, critical care nurses, and clinical healthcare professionals"
                 className="w-full aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-102"
                 referrerPolicy="no-referrer"
               />
 
               {/* Scrim Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0a192f]/90 via-[#0a192f]/30 to-transparent pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0a192f]/95 via-[#0a192f]/35 to-transparent pointer-events-none" />
 
-              {/* Bottom Card Annotation */}
-              <div className="absolute bottom-0 inset-x-0 p-5 text-white">
-                <div className="flex items-center justify-between mb-1 text-xs text-emerald-400 font-semibold uppercase tracking-wider">
-                  <span>Authorized International Placements</span>
-                  <span>Middle East · UK · USA</span>
+              {/* Floating Verified Official Logo Credential Badge */}
+              <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-md rounded-xl p-2.5 shadow-lg border border-slate-100 flex items-center gap-2.5 transition-transform hover:scale-102">
+                <img
+                  src={logoImg}
+                  alt="NPGC Official Logo"
+                  className="w-9 h-9 object-contain rounded-lg bg-white p-0.5 border border-slate-200 shrink-0"
+                />
+                <div>
+                  <div className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-700 flex items-center gap-1">
+                    <ShieldCheck className="w-3 h-3 text-emerald-600" />
+                    <span>Govt. Registered</span>
+                  </div>
+                  <div className="text-xs font-bold text-[#0a2540] leading-none mt-0.5">
+                    Medical Manpower
+                  </div>
                 </div>
-                <h3 className="text-base font-bold text-white leading-snug">
-                  Specialist Doctors, Critical Care Nurses & Allied Scientists
-                </h3>
-                <p className="text-xs text-slate-300 mt-1 line-clamp-2">
-                  Facilitating credentials evaluation, state medical boards licensing, and embassy-level visa clearance.
-                </p>
               </div>
 
               {/* Quick Eligibility Tool Trigger Floating in Corner */}
@@ -128,6 +136,20 @@ export const Hero: React.FC<HeroProps> = ({
                 <Award className="w-3.5 h-3.5 text-emerald-600" />
                 <span>Pathway Calculator</span>
               </button>
+
+              {/* Bottom Card Annotation */}
+              <div className="absolute bottom-0 inset-x-0 p-5 sm:p-6 text-white">
+                <div className="flex items-center justify-between mb-1.5 text-xs text-emerald-400 font-semibold uppercase tracking-wider">
+                  <span>Authorized International Placements</span>
+                  <span className="text-slate-300">UAE · KSA · UK · USA · Ireland</span>
+                </div>
+                <h3 className="text-base sm:text-lg font-bold text-white leading-snug">
+                  Specialist Doctors, Critical Care Nurses & Allied Scientists
+                </h3>
+                <p className="text-xs text-slate-300 mt-1 line-clamp-2">
+                  Comprehensive DataFlow Primary Source Verification, Prometric/MOH/NCLEX coaching, and embassy medical visa clearances.
+                </p>
+              </div>
             </div>
           </div>
 

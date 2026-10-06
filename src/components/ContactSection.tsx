@@ -357,14 +357,14 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                   Thank you, {submittedData.name}!
                 </h3>
                 <p className="text-sm text-slate-600 mt-2 max-w-md mx-auto">
-                  Your dossier has been transmitted directly to admissions at <strong className="text-emerald-700">npgcmanpower@gmail.com</strong> under Tracking Reference ID:
+                  Your request has been dispatched directly to admissions at <strong className="text-emerald-700">npgcmanpower@gmail.com</strong> under Tracking Reference ID:
                 </p>
                 <div className="mt-3 inline-block px-4 py-1.5 bg-slate-100 rounded-lg text-sm font-mono font-bold text-[#0e3b75] border border-slate-300">
                   {submittedData.referenceId}
                 </div>
 
                 <div className="mt-6 text-xs text-slate-500 max-w-md mx-auto leading-relaxed border-t border-slate-100 pt-4">
-                  Our healthcare licensing and recruitment officers will review your credentials and contact you at <span className="font-semibold text-slate-700">{submittedData.email}</span> within 24 business hours.
+                  Our healthcare licensing and recruitment officers will review your dossier and contact you via email at <span className="font-semibold text-slate-700">{submittedData.email}</span> within 24 business hours.
                 </div>
 
                 <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
@@ -376,7 +376,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                     Submit Another Application
                   </button>
                   <a
-                    href={`https://wa.me/919994676443?text=${encodeURIComponent(`Hello New Path Global Manpower, I have submitted my application on your website with Ref ID: ${submittedData.referenceId}. My name is ${submittedData.name}.`)}`}
+                    href={`https://wa.me/919994676443?text=${encodeURIComponent(`Hello New Path Global Manpower, I have submitted an application on your website with Ref ID: ${submittedData.referenceId}. My name is ${submittedData.name}.`)}`}
                     target="_blank"
                     rel="noreferrer"
                     className="px-4 py-2 text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition-colors inline-flex items-center gap-1.5"
@@ -595,20 +595,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
 
                     <button
                       type="submit"
-                      disabled={isSubmitting}
-                      className="w-full py-3.5 px-6 text-xs sm:text-sm font-bold text-white bg-[#0e3b75] hover:bg-[#092955] disabled:bg-slate-400 rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:cursor-not-allowed"
+                      className="w-full py-3.5 px-6 text-xs sm:text-sm font-bold text-white bg-[#0e3b75] hover:bg-[#092955] rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
                     >
-                      {isSubmitting ? (
-                        <>
-                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                          <span>Dispatching to npgcmanpower@gmail.com...</span>
-                        </>
-                      ) : (
-                        <>
-                          <Send className="w-4 h-4" />
-                          <span>Submit Candidate Application</span>
-                        </>
-                      )}
+                      <Send className="w-4 h-4" />
+                      <span>Submit Candidate Application</span>
                     </button>
                   </form>
                 )}
@@ -761,20 +751,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
 
                     <button
                       type="submit"
-                      disabled={isSubmitting}
-                      className="w-full py-3.5 px-6 text-xs sm:text-sm font-bold text-white bg-[#0e3b75] hover:bg-[#092955] disabled:bg-slate-400 rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:cursor-not-allowed"
+                      className="w-full py-3.5 px-6 text-xs sm:text-sm font-bold text-white bg-[#0e3b75] hover:bg-[#092955] rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
                     >
-                      {isSubmitting ? (
-                        <>
-                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                          <span>Dispatching Requisition to npgcmanpower@gmail.com...</span>
-                        </>
-                      ) : (
-                        <>
-                          <Building2 className="w-4 h-4" />
-                          <span>Submit Hospital Staffing Requisition</span>
-                        </>
-                      )}
+                      <Building2 className="w-4 h-4" />
+                      <span>Submit Hospital Staffing Requisition</span>
                     </button>
                   </form>
                 )}
@@ -883,20 +863,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
 
                     <button
                       type="submit"
-                      disabled={isSubmitting}
-                      className="w-full py-3.5 px-6 text-xs sm:text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-400 rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:cursor-not-allowed"
+                      className="w-full py-3.5 px-6 text-xs sm:text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
                     >
-                      {isSubmitting ? (
-                        <>
-                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                          <span>Booking Advisory at npgcmanpower@gmail.com...</span>
-                        </>
-                      ) : (
-                        <>
-                          <Clock className="w-4 h-4" />
-                          <span>Confirm Free Advisory Appointment</span>
-                        </>
-                      )}
+                      <Clock className="w-4 h-4" />
+                      <span>Confirm Free Advisory Appointment</span>
                     </button>
                   </form>
                 )}

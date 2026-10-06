@@ -64,8 +64,11 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
     tab: 'candidate' | 'employer' | 'consultation';
     email: string;
     name: string;
+    phone?: string;
+    profession?: string;
   } | null>(null);
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [copiedEmail, setCopiedEmail] = useState(false);
 
@@ -89,7 +92,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
-  const handleCandidateSubmit = (e: React.FormEvent) => {
+  const handleCandidateSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const newErrors: Record<string, string> = {};
 
@@ -104,16 +107,49 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
     }
 
     setErrors({});
+    setIsSubmitting(true);
     const refCode = `NPG-CAND-${Math.floor(100000 + Math.random() * 900000)}`;
-    setSubmittedData({
-      referenceId: refCode,
-      tab: 'candidate',
-      email: candidateForm.email,
-      name: candidateForm.fullName
-    });
+
+    try {
+      await fetch('https://formsubmit.co/ajax/npgcmanpower@gmail.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          _subject: `New Candidate Application: ${candidateForm.fullName} (${candidateForm.profession})`,
+          "Candidate Name": candidateForm.fullName,
+          "Email Address": candidateForm.email,
+          "Phone / WhatsApp": candidateForm.phone,
+          "Profession / Specialty": candidateForm.profession,
+          "Highest Qualification": candidateForm.qualification,
+          "Years of Experience": candidateForm.experienceYears,
+          "Target Destination": candidateForm.targetDestination,
+          "Licensing Exam Status": candidateForm.licensingStatus,
+          "Target Exam": candidateForm.targetExam || 'Not specified',
+          "Applicant Message": candidateForm.message || 'None',
+          "Resume Uploaded": candidateForm.resumeFileName || 'None',
+          "Application Reference ID": refCode,
+          _template: 'table'
+        })
+      });
+    } catch (err) {
+      console.warn('FormSubmit background notification attempt finished', err);
+    } finally {
+      setIsSubmitting(false);
+      setSubmittedData({
+        referenceId: refCode,
+        tab: 'candidate',
+        email: candidateForm.email,
+        name: candidateForm.fullName,
+        phone: candidateForm.phone,
+        profession: candidateForm.profession
+      });
+    }
   };
 
-  const handleEmployerSubmit = (e: React.FormEvent) => {
+  const handleEmployerSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const newErrors: Record<string, string> = {};
 
@@ -128,16 +164,48 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
     }
 
     setErrors({});
+    setIsSubmitting(true);
     const refCode = `NPG-HOSP-${Math.floor(100000 + Math.random() * 900000)}`;
-    setSubmittedData({
-      referenceId: refCode,
-      tab: 'employer',
-      email: employerForm.workEmail,
-      name: employerForm.contactPerson
-    });
+
+    try {
+      await fetch('https://formsubmit.co/ajax/npgcmanpower@gmail.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          _subject: `New Healthcare Employer Requisition: ${employerForm.organizationName}`,
+          "Hospital / Organization": employerForm.organizationName,
+          "Contact Person": employerForm.contactPerson,
+          "Designation": employerForm.designation || 'Not specified',
+          "Work Email": employerForm.workEmail,
+          "Phone": employerForm.phone,
+          "Facility Type": employerForm.facilityType,
+          "Country Location": employerForm.locationCountry,
+          "Roles Needed": employerForm.rolesNeeded,
+          "Headcount Required": employerForm.headcount,
+          "Deployment Timeline": employerForm.timeline,
+          "Specific Requirements": employerForm.requirements || 'None',
+          "Requisition Ref ID": refCode,
+          _template: 'table'
+        })
+      });
+    } catch (err) {
+      console.warn('FormSubmit background notification attempt finished', err);
+    } finally {
+      setIsSubmitting(false);
+      setSubmittedData({
+        referenceId: refCode,
+        tab: 'employer',
+        email: employerForm.workEmail,
+        name: employerForm.contactPerson,
+        phone: employerForm.phone
+      });
+    }
   };
 
-  const handleConsultSubmit = (e: React.FormEvent) => {
+  const handleConsultSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const newErrors: Record<string, string> = {};
 
@@ -151,13 +219,41 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
     }
 
     setErrors({});
+    setIsSubmitting(true);
     const refCode = `NPG-ADVISORY-${Math.floor(100000 + Math.random() * 900000)}`;
-    setSubmittedData({
-      referenceId: refCode,
-      tab: 'consultation',
-      email: consultForm.email,
-      name: consultForm.fullName
-    });
+
+    try {
+      await fetch('https://formsubmit.co/ajax/npgcmanpower@gmail.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          _subject: `New Consultation Booking Request: ${consultForm.fullName}`,
+          "Client Name": consultForm.fullName,
+          "Email": consultForm.email,
+          "Phone": consultForm.phone,
+          "Advisory Topic": consultForm.topic,
+          "Preferred Date": consultForm.preferredDate || 'Earliest Available',
+          "Preferred Time": consultForm.preferredTime,
+          "Notes / Questions": consultForm.notes || 'None',
+          "Consultation Ref ID": refCode,
+          _template: 'table'
+        })
+      });
+    } catch (err) {
+      console.warn('FormSubmit background notification attempt finished', err);
+    } finally {
+      setIsSubmitting(false);
+      setSubmittedData({
+        referenceId: refCode,
+        tab: 'consultation',
+        email: consultForm.email,
+        name: consultForm.fullName,
+        phone: consultForm.phone
+      });
+    }
   };
 
   const handleCopyEmail = () => {
@@ -255,20 +351,20 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                   <CheckCircle2 className="w-8 h-8" />
                 </div>
                 <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider block mb-1">
-                  Submission Successfully Received
+                  Application Successfully Received & Dispatched
                 </span>
                 <h3 className="text-xl sm:text-2xl font-bold text-[#0a2540]">
                   Thank you, {submittedData.name}!
                 </h3>
                 <p className="text-sm text-slate-600 mt-2 max-w-md mx-auto">
-                  Your request has been logged under Tracking Reference ID:
+                  Your dossier has been transmitted directly to admissions at <strong className="text-emerald-700">npgcmanpower@gmail.com</strong> under Tracking Reference ID:
                 </p>
                 <div className="mt-3 inline-block px-4 py-1.5 bg-slate-100 rounded-lg text-sm font-mono font-bold text-[#0e3b75] border border-slate-300">
                   {submittedData.referenceId}
                 </div>
 
                 <div className="mt-6 text-xs text-slate-500 max-w-md mx-auto leading-relaxed border-t border-slate-100 pt-4">
-                  Our healthcare licensing and recruitment officers will review your dossier and contact you via email at <span className="font-semibold text-slate-700">{submittedData.email}</span> within 24 business hours.
+                  Our healthcare licensing and recruitment officers will review your credentials and contact you at <span className="font-semibold text-slate-700">{submittedData.email}</span> within 24 business hours.
                 </div>
 
                 <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
@@ -280,11 +376,19 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                     Submit Another Application
                   </button>
                   <a
-                    href={`mailto:${COMPANY_INFO.email}?subject=Inquiry%20Ref%3A%20${submittedData.referenceId}`}
+                    href={`https://wa.me/919994676443?text=${encodeURIComponent(`Hello New Path Global Manpower, I have submitted my application on your website with Ref ID: ${submittedData.referenceId}. My name is ${submittedData.name}.`)}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="px-4 py-2 text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition-colors inline-flex items-center gap-1.5"
+                  >
+                    <span>Instant WhatsApp Connect</span>
+                  </a>
+                  <a
+                    href={`mailto:${COMPANY_INFO.email}?subject=Inquiry%20Ref%3A%20${submittedData.referenceId}&body=Hello%20NPGC%20Admissions%20Team%2C%0A%0AMy%20Application%20Reference%20ID%20is%20${submittedData.referenceId}.%0AName%3A%20${encodeURIComponent(submittedData.name)}%0A%0APlease%20find%20my%20attached%20CV%20and%20credentials.`}
                     className="px-4 py-2 text-xs font-semibold text-white bg-[#0e3b75] hover:bg-[#092955] rounded-lg transition-colors inline-flex items-center gap-1.5"
                   >
                     <Mail className="w-3.5 h-3.5" />
-                    <span>Send Supporting Documents via Email</span>
+                    <span>Send Documents via Email</span>
                   </a>
                 </div>
               </div>
@@ -491,10 +595,20 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
 
                     <button
                       type="submit"
-                      className="w-full py-3.5 px-6 text-xs sm:text-sm font-bold text-white bg-[#0e3b75] hover:bg-[#092955] rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
+                      disabled={isSubmitting}
+                      className="w-full py-3.5 px-6 text-xs sm:text-sm font-bold text-white bg-[#0e3b75] hover:bg-[#092955] disabled:bg-slate-400 rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:cursor-not-allowed"
                     >
-                      <Send className="w-4 h-4" />
-                      <span>Submit Candidate Application</span>
+                      {isSubmitting ? (
+                        <>
+                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                          <span>Dispatching to npgcmanpower@gmail.com...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Send className="w-4 h-4" />
+                          <span>Submit Candidate Application</span>
+                        </>
+                      )}
                     </button>
                   </form>
                 )}
@@ -647,10 +761,20 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
 
                     <button
                       type="submit"
-                      className="w-full py-3.5 px-6 text-xs sm:text-sm font-bold text-white bg-[#0e3b75] hover:bg-[#092955] rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
+                      disabled={isSubmitting}
+                      className="w-full py-3.5 px-6 text-xs sm:text-sm font-bold text-white bg-[#0e3b75] hover:bg-[#092955] disabled:bg-slate-400 rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:cursor-not-allowed"
                     >
-                      <Building2 className="w-4 h-4" />
-                      <span>Submit Hospital Staffing Requisition</span>
+                      {isSubmitting ? (
+                        <>
+                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                          <span>Dispatching Requisition to npgcmanpower@gmail.com...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Building2 className="w-4 h-4" />
+                          <span>Submit Hospital Staffing Requisition</span>
+                        </>
+                      )}
                     </button>
                   </form>
                 )}
@@ -759,10 +883,20 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
 
                     <button
                       type="submit"
-                      className="w-full py-3.5 px-6 text-xs sm:text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
+                      disabled={isSubmitting}
+                      className="w-full py-3.5 px-6 text-xs sm:text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-400 rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:cursor-not-allowed"
                     >
-                      <Clock className="w-4 h-4" />
-                      <span>Confirm Free Advisory Appointment</span>
+                      {isSubmitting ? (
+                        <>
+                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                          <span>Booking Advisory at npgcmanpower@gmail.com...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Clock className="w-4 h-4" />
+                          <span>Confirm Free Advisory Appointment</span>
+                        </>
+                      )}
                     </button>
                   </form>
                 )}

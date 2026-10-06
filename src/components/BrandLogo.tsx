@@ -1,5 +1,5 @@
 import React from 'react';
-import logoImg from '../assets/images/logo.png';
+import { NPGC_LOGO_BASE64 } from '../assets/logoBase64';
 
 interface BrandLogoProps {
   className?: string;
@@ -18,7 +18,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
     return (
       <div className={`flex items-center gap-3.5 ${className}`}>
         <img
-          src={logoImg}
+          src={NPGC_LOGO_BASE64}
           alt="New Path Global Career Manpower Pvt Ltd"
           className="w-14 h-14 sm:w-16 sm:h-16 object-contain rounded-xl bg-white p-1 border border-slate-200/80 shadow-xs shrink-0"
         />
@@ -45,7 +45,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
     <div className={`flex items-center gap-3 ${className}`}>
       {/* Official Emblem Logo Image */}
       <img
-        src={logoImg}
+        src={NPGC_LOGO_BASE64}
         alt="New Path Global Logo"
         className="w-11 h-11 sm:w-12 sm:h-12 object-contain rounded-xl bg-white p-0.5 border border-slate-200 shadow-xs shrink-0 transition-transform group-hover:scale-105"
       />

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Stethoscope, Check, ArrowRight, Sparkles, GraduationCap, MapPin, FileCheck2 } from 'lucide-react';
 import { MEDICAL_SPECIALTIES } from '../data/companyData';
 import { MedicalSpecialty } from '../types';
-import medicalDepartmentImg from '../assets/images/medical_department_placement_1791195626498.jpg';
 
 interface SpecialtiesSectionProps {
   onSelectSpecialty: (specialtyTitle: string) => void;

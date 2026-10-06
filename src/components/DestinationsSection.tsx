@@ -1,7 +1,6 @@
 import React from 'react';
 import { Globe, MapPin, Check, AlertCircle, ArrowRight, ShieldCheck, Plane } from 'lucide-react';
 import { DESTINATIONS, COMPANY_INFO } from '../data/companyData';
-import hospitalCampusImg from '../assets/images/international_healthcare_hospital_1791195671312.jpg';
 
 interface DestinationsSectionProps {
   onSelectDestination: (destinationName: string) => void;

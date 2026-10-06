@@ -1,8 +1,7 @@
 import React from 'react';
 import { ArrowRight, CheckCircle2, ShieldCheck, Globe2, Award, Building2, Users, Sparkles } from 'lucide-react';
 import { STATS, COMPANY_INFO } from '../data/companyData';
-import logoImg from '../assets/images/logo.png';
-import groupDoctorsImg from '../assets/images/group_doctors.jpg';
+import { NPGC_LOGO_BASE64 } from '../assets/logoBase64';
 
 interface HeroProps {
   onOpenCandidateForm: () => void;
@@ -109,7 +108,7 @@ export const Hero: React.FC<HeroProps> = ({
               {/* Floating Verified Official Logo Credential Badge */}
               <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-md rounded-xl p-2.5 shadow-lg border border-slate-100 flex items-center gap-2.5 transition-transform hover:scale-102">
                 <img
-                  src={logoImg}
+                  src={NPGC_LOGO_BASE64}
                   alt="NPGC Official Logo"
                   className="w-9 h-9 object-contain rounded-lg bg-white p-0.5 border border-slate-200 shrink-0"
                 />

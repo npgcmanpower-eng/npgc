@@ -25,6 +25,9 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
             src={NPGC_OFFICIAL_LOGO}
             alt="New Path Global Career Manpower Pvt Ltd - Official Logo"
             className="w-20 h-20 sm:w-24 sm:h-24 object-contain rounded-xl"
+            onError={(e) => {
+              e.currentTarget.src = '/logo.png';
+            }}
           />
         </div>
         
@@ -55,6 +58,9 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
           src={NPGC_OFFICIAL_LOGO}
           alt="New Path Global Official Logo"
           className="w-12 h-12 sm:w-14 sm:h-14 object-contain rounded-lg"
+          onError={(e) => {
+            e.currentTarget.src = '/logo_compact.png';
+          }}
         />
       </div>
 

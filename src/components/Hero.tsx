@@ -99,6 +99,13 @@ export const Hero: React.FC<HeroProps> = ({
                 alt="Group of specialist doctors, critical care nurses, and clinical healthcare professionals"
                 className="w-full aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-102"
                 referrerPolicy="no-referrer"
+                loading="eager"
+                onError={(e) => {
+                  const target = e.currentTarget;
+                  if (!target.src.includes('group_doctors.jpg')) {
+                    target.src = '/group_doctors.jpg';
+                  }
+                }}
               />
 
               {/* Scrim Overlay */}

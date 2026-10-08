@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import localLogo from '../assets/logo.png';
 import { OFFICIAL_NPGC_LOGO } from '../assets/officialLogoBase64';
 
-// Primary bundled source (Vite bundles this directly into the assets build)
-const BUNDLED_LOGO_SRC = localLogo;
-const PUBLIC_LOGO_SRC = '/logo.png';
-
-// CDN and GitHub Fallbacks pointing to user's exact repo (npgcmanpower-eng/npgc)
-const CDN_LOGO_SRC = 'https://cdn.jsdelivr.net/gh/npgcmanpower-eng/npgc@main/public/logo.png';
-const RAW_GITHUB_LOGO_SRC = 'https://raw.githubusercontent.com/npgcmanpower-eng/npgc/main/public/logo.png';
-const EMBEDDED_FALLBACK_SRC = OFFICIAL_NPGC_LOGO;
+// Multi-tiered logo sources ensuring 100% reliable rendering across Vite, Vercel, and GitHub
+const LOGO_SOURCES = [
+  localLogo, // 1. Bundled asset (hashed and packaged by Vite into dist/assets)
+  '/logo.png', // 2. Direct Vercel public directory root path
+  'https://cdn.jsdelivr.net/gh/npgcmanpower-eng/npgc@main/public/logo.png', // 3. Fast global CDN from exact repo
+  'https://raw.githubusercontent.com/npgcmanpower-eng/npgc/main/public/logo.png', // 4. GitHub raw source fallback
+  OFFICIAL_NPGC_LOGO, // 5. Embedded inline base64 data URI (guaranteed zero network dependency)
+];
 
 interface BrandLogoProps {
   className?: string;
@@ -22,22 +22,16 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
   variant = 'compact',
   showSubtitle = true,
 }) => {
-  const [imgFailed, setImgFailed] = useState(false);
+  const [sourceIdx, setSourceIdx] = useState(0);
+  const [hasFailedAll, setHasFailedAll] = useState(false);
   const isWhite = variant === 'white';
   const isFull = variant === 'full';
 
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    const currentSrc = e.currentTarget.src;
-    if (currentSrc !== PUBLIC_LOGO_SRC && !currentSrc.endsWith('/logo.png')) {
-      e.currentTarget.src = PUBLIC_LOGO_SRC;
-    } else if (!currentSrc.includes('cdn.jsdelivr.net')) {
-      e.currentTarget.src = CDN_LOGO_SRC;
-    } else if (!currentSrc.includes('raw.githubusercontent.com')) {
-      e.currentTarget.src = RAW_GITHUB_LOGO_SRC;
-    } else if (e.currentTarget.src !== EMBEDDED_FALLBACK_SRC) {
-      e.currentTarget.src = EMBEDDED_FALLBACK_SRC;
+  const handleImageError = () => {
+    if (sourceIdx < LOGO_SOURCES.length - 1) {
+      setSourceIdx((prev) => prev + 1);
     } else {
-      setImgFailed(true);
+      setHasFailedAll(true);
     }
   };
 
@@ -78,9 +72,10 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
     return (
       <div className={`flex flex-col items-center text-center group ${className}`}>
         <div className="relative shrink-0 rounded-2xl bg-white p-2 border border-slate-200/90 shadow-md transition-transform group-hover:scale-105 mb-3">
-          {!imgFailed ? (
+          {!hasFailedAll ? (
             <img
-              src={BUNDLED_LOGO_SRC}
+              key={`full-${sourceIdx}`}
+              src={LOGO_SOURCES[sourceIdx]}
               alt="New Path Global Career Manpower Pvt Ltd"
               className="w-20 h-20 sm:w-24 sm:h-24 object-contain rounded-xl"
               onError={handleImageError}
@@ -120,9 +115,10 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
   return (
     <div className={`flex items-center gap-3 group ${className}`}>
       <div className="relative shrink-0 rounded-xl bg-white p-1 border border-slate-200 shadow-xs transition-transform group-hover:scale-105">
-        {!imgFailed ? (
+        {!hasFailedAll ? (
           <img
-            src={BUNDLED_LOGO_SRC}
+            key={`compact-${sourceIdx}`}
+            src={LOGO_SOURCES[sourceIdx]}
             alt="New Path Global Career Manpower Pvt Ltd"
             className="h-11 sm:h-13 w-auto object-contain rounded-lg"
             onError={handleImageError}

@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
+import localLogo from '../assets/logo.png';
+import { OFFICIAL_NPGC_LOGO } from '../assets/officialLogoBase64';
 
-// Primary source: Local public asset (standard for Vite & Vercel deployments)
-const PRIMARY_LOGO_SRC = '/logo.png';
+// Primary bundled source (Vite bundles this directly into the assets build)
+const BUNDLED_LOGO_SRC = localLogo;
+const PUBLIC_LOGO_SRC = '/logo.png';
 
-// Fallback source: Direct GitHub raw image from the repository
-const FALLBACK_LOGO_SRC = 'https://raw.githubusercontent.com/npgcmanpower-eng/NPGC-manpower/main/logo.png';
+// CDN and GitHub Fallbacks pointing to user's exact repo (npgcmanpower-eng/npgc)
+const CDN_LOGO_SRC = 'https://cdn.jsdelivr.net/gh/npgcmanpower-eng/npgc@main/public/logo.png';
+const RAW_GITHUB_LOGO_SRC = 'https://raw.githubusercontent.com/npgcmanpower-eng/npgc/main/public/logo.png';
+const EMBEDDED_FALLBACK_SRC = OFFICIAL_NPGC_LOGO;
 
 interface BrandLogoProps {
   className?: string;
@@ -20,6 +25,21 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
   const [imgFailed, setImgFailed] = useState(false);
   const isWhite = variant === 'white';
   const isFull = variant === 'full';
+
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    const currentSrc = e.currentTarget.src;
+    if (currentSrc !== PUBLIC_LOGO_SRC && !currentSrc.endsWith('/logo.png')) {
+      e.currentTarget.src = PUBLIC_LOGO_SRC;
+    } else if (!currentSrc.includes('cdn.jsdelivr.net')) {
+      e.currentTarget.src = CDN_LOGO_SRC;
+    } else if (!currentSrc.includes('raw.githubusercontent.com')) {
+      e.currentTarget.src = RAW_GITHUB_LOGO_SRC;
+    } else if (e.currentTarget.src !== EMBEDDED_FALLBACK_SRC) {
+      e.currentTarget.src = EMBEDDED_FALLBACK_SRC;
+    } else {
+      setImgFailed(true);
+    }
+  };
 
   // Vector fallback emblem if network/image fails completely
   const renderFallbackEmblem = (sizeClass: string) => (
@@ -60,16 +80,10 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
         <div className="relative shrink-0 rounded-2xl bg-white p-2 border border-slate-200/90 shadow-md transition-transform group-hover:scale-105 mb-3">
           {!imgFailed ? (
             <img
-              src={PRIMARY_LOGO_SRC}
+              src={BUNDLED_LOGO_SRC}
               alt="New Path Global Career Manpower Pvt Ltd"
               className="w-20 h-20 sm:w-24 sm:h-24 object-contain rounded-xl"
-              onError={(e) => {
-                if (e.currentTarget.src !== FALLBACK_LOGO_SRC) {
-                  e.currentTarget.src = FALLBACK_LOGO_SRC;
-                } else {
-                  setImgFailed(true);
-                }
-              }}
+              onError={handleImageError}
             />
           ) : (
             renderFallbackEmblem('w-20 h-20 sm:w-24 sm:h-24')
@@ -108,16 +122,10 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
       <div className="relative shrink-0 rounded-xl bg-white p-1 border border-slate-200 shadow-xs transition-transform group-hover:scale-105">
         {!imgFailed ? (
           <img
-            src={PRIMARY_LOGO_SRC}
+            src={BUNDLED_LOGO_SRC}
             alt="New Path Global Career Manpower Pvt Ltd"
             className="h-11 sm:h-13 w-auto object-contain rounded-lg"
-            onError={(e) => {
-              if (e.currentTarget.src !== FALLBACK_LOGO_SRC) {
-                e.currentTarget.src = FALLBACK_LOGO_SRC;
-              } else {
-                setImgFailed(true);
-              }
-            }}
+            onError={handleImageError}
           />
         ) : (
           renderFallbackEmblem('w-12 h-12 sm:w-14 sm:h-14')

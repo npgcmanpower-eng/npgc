@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-// Link directly to the official logo.png hosted in your GitHub repository
-// Delivered via ultra-fast global CDN with zero 404 risk on Vercel or local preview
-const LOGO_URL = 'https://cdn.jsdelivr.net/gh/npgcmanpower-eng/NPGC-manpower@main/logo.png';
-const FALLBACK_LOGO_URL = 'https://raw.githubusercontent.com/npgcmanpower-eng/NPGC-manpower/main/logo.png';
+// Primary source: Local public asset (standard for Vite & Vercel deployments)
+const PRIMARY_LOGO_SRC = '/logo.png';
+
+// Fallback source: Direct GitHub raw image from the repository
+const FALLBACK_LOGO_SRC = 'https://raw.githubusercontent.com/npgcmanpower-eng/NPGC-manpower/main/logo.png';
 
 interface BrandLogoProps {
   className?: string;
@@ -16,25 +17,63 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
   variant = 'compact',
   showSubtitle = true,
 }) => {
+  const [imgFailed, setImgFailed] = useState(false);
   const isWhite = variant === 'white';
   const isFull = variant === 'full';
+
+  // Vector fallback emblem if network/image fails completely
+  const renderFallbackEmblem = (sizeClass: string) => (
+    <div className={`flex items-center justify-center bg-gradient-to-br from-emerald-600 via-teal-700 to-[#0a2540] rounded-xl text-white shadow-xs ${sizeClass}`}>
+      <svg
+        viewBox="0 0 48 48"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="w-3/4 h-3/4"
+      >
+        {/* Globe grid */}
+        <circle cx="24" cy="24" r="20" stroke="currentColor" strokeWidth="2.5" opacity="0.3" />
+        <ellipse cx="24" cy="24" rx="10" ry="20" stroke="currentColor" strokeWidth="2" opacity="0.3" />
+        <line x1="4" y1="24" x2="44" y2="24" stroke="currentColor" strokeWidth="2" opacity="0.3" />
+        {/* Medical Cross */}
+        <path
+          d="M21 14h6v7h7v6h-7v7h-6v-7h-7v-6h7v-7z"
+          fill="#34d399"
+          stroke="white"
+          strokeWidth="1.5"
+          strokeLinejoin="round"
+        />
+        {/* Stethoscope Accent */}
+        <path
+          d="M12 28c0 7 5 12 12 12s12-5 12-12v-6"
+          stroke="white"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+        />
+        <circle cx="36" cy="20" r="2.5" fill="#34d399" />
+      </svg>
+    </div>
+  );
 
   if (isFull) {
     return (
       <div className={`flex flex-col items-center text-center group ${className}`}>
         <div className="relative shrink-0 rounded-2xl bg-white p-2 border border-slate-200/90 shadow-md transition-transform group-hover:scale-105 mb-3">
-          <img
-            src={LOGO_URL}
-            alt="New Path Global Career Manpower Pvt Ltd - Official Logo"
-            className="w-20 h-20 sm:w-24 sm:h-24 object-contain rounded-xl"
-            onError={(e) => {
-              if (e.currentTarget.src !== FALLBACK_LOGO_URL) {
-                e.currentTarget.src = FALLBACK_LOGO_URL;
-              } else {
-                e.currentTarget.src = '/logo.png';
-              }
-            }}
-          />
+          {!imgFailed ? (
+            <img
+              src={PRIMARY_LOGO_SRC}
+              alt="New Path Global Career Manpower Pvt Ltd"
+              className="w-20 h-20 sm:w-24 sm:h-24 object-contain rounded-xl"
+              onError={(e) => {
+                if (e.currentTarget.src !== FALLBACK_LOGO_SRC) {
+                  e.currentTarget.src = FALLBACK_LOGO_SRC;
+                } else {
+                  setImgFailed(true);
+                }
+              }}
+            />
+          ) : (
+            renderFallbackEmblem('w-20 h-20 sm:w-24 sm:h-24')
+          )}
         </div>
         <div className="flex flex-col items-center">
           <div className="flex items-center gap-1.5 leading-none">
@@ -67,18 +106,22 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
   return (
     <div className={`flex items-center gap-3 group ${className}`}>
       <div className="relative shrink-0 rounded-xl bg-white p-1 border border-slate-200 shadow-xs transition-transform group-hover:scale-105">
-        <img
-          src={LOGO_URL}
-          alt="New Path Global Career Manpower Pvt Ltd"
-          className="h-11 sm:h-13 w-auto object-contain rounded-lg"
-          onError={(e) => {
-            if (e.currentTarget.src !== FALLBACK_LOGO_URL) {
-              e.currentTarget.src = FALLBACK_LOGO_URL;
-            } else {
-              e.currentTarget.src = '/logo.png';
-            }
-          }}
-        />
+        {!imgFailed ? (
+          <img
+            src={PRIMARY_LOGO_SRC}
+            alt="New Path Global Career Manpower Pvt Ltd"
+            className="h-11 sm:h-13 w-auto object-contain rounded-lg"
+            onError={(e) => {
+              if (e.currentTarget.src !== FALLBACK_LOGO_SRC) {
+                e.currentTarget.src = FALLBACK_LOGO_SRC;
+              } else {
+                setImgFailed(true);
+              }
+            }}
+          />
+        ) : (
+          renderFallbackEmblem('w-12 h-12 sm:w-14 sm:h-14')
+        )}
       </div>
 
       <div className="flex flex-col justify-center select-none">
@@ -113,4 +156,5 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
     </div>
   );
 };
+
 export default BrandLogo;

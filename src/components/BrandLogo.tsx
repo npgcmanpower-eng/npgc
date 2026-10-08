@@ -50,40 +50,68 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
     );
   }
 
-  return (
-    <div className={`flex items-center gap-3.5 group ${className}`}>
-      {/* Official 3D Globe + NPG + Stethoscope Logo Badge */}
-      <div className="relative shrink-0 rounded-xl bg-white p-1 border border-slate-200 shadow-sm transition-transform group-hover:scale-105">
-        <img
-          src={NPGC_OFFICIAL_LOGO}
-          alt="New Path Global Official Logo"
-          className="w-12 h-12 sm:w-14 sm:h-14 object-contain rounded-lg"
-          onError={(e) => {
-            e.currentTarget.src = '/logo_compact.png';
-          }}
-        />
-      </div>
+  const [imageError, setImageError] = React.useState(false);
 
-      <div className="flex flex-col justify-center">
-        <div className="flex items-center gap-1.5 leading-none">
-          <span className={`text-base sm:text-lg font-black tracking-tight ${isWhite ? 'text-white' : 'text-[#0a2540]'}`}>
-            New Path <span className="text-emerald-600">Global</span>
-          </span>
-          <span className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">
-            Medical
-          </span>
+  return (
+    <div className={`flex items-center gap-3 group ${className}`}>
+      {/* If /logo.png exists, render direct banner logo; otherwise render exact vector/emblem logo */}
+      {!imageError ? (
+        <img
+          src="/logo.png"
+          alt="New Path Global Career Manpower Pvt Ltd - For Medical Department"
+          className="h-11 sm:h-13 w-auto object-contain transition-transform group-hover:scale-102"
+          onError={() => setImageError(true)}
+        />
+      ) : (
+        <div className="flex items-center gap-3">
+          {/* Official 3D Globe + NPG + Stethoscope Logo Badge */}
+          <div className="relative shrink-0 rounded-xl bg-white p-1 border border-slate-200/90 shadow-xs transition-transform group-hover:scale-105">
+            <img
+              src={NPGC_OFFICIAL_LOGO}
+              alt="New Path Global Official Logo"
+              className="w-11 h-11 sm:w-13 sm:h-13 object-contain rounded-lg"
+              onError={(e) => {
+                e.currentTarget.src = '/logo_compact.png';
+              }}
+            />
+          </div>
+
+          <div className="flex flex-col justify-center select-none">
+            {/* New Path Global with Leaf motif */}
+            <div className="flex items-center leading-none">
+              <span className={`text-base sm:text-[19px] font-black tracking-tight ${isWhite ? 'text-white' : 'text-[#07458e]'}`}>
+                New Path{' '}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#158a36] to-[#2eb048]">
+                  Global
+                </span>
+              </span>
+            </div>
+
+            {/* Career Manpower Pvt Ltd */}
+            <span className={`text-[11px] sm:text-[12px] font-bold tracking-tight leading-tight mt-0.5 ${isWhite ? 'text-slate-200' : 'text-[#1b3252]'}`}>
+              Career Manpower Pvt Ltd
+            </span>
+
+            {showSubtitle && (
+              <>
+                {/* — FOR MEDICAL DEPARTMENT — */}
+                <div className="flex items-center gap-1.5 my-0.5">
+                  <div className="h-[1px] bg-emerald-600/60 w-3 sm:w-4" />
+                  <span className="text-[8px] sm:text-[9px] font-black uppercase tracking-wider text-emerald-700">
+                    FOR MEDICAL DEPARTMENT
+                  </span>
+                  <div className="h-[1px] bg-emerald-600/60 w-3 sm:w-4" />
+                </div>
+
+                {/* GLOBAL TALENT | HEALTHIER TOMORROW */}
+                <div className={`text-[7px] sm:text-[7.5px] font-semibold tracking-widest uppercase ${isWhite ? 'text-slate-400' : 'text-slate-500'}`}>
+                  GLOBAL TALENT <span className="text-slate-300">|</span> HEALTHIER TOMORROW
+                </div>
+              </>
+            )}
+          </div>
         </div>
-        {showSubtitle && (
-          <>
-            <span className={`text-[11px] font-bold tracking-tight mt-1 ${isWhite ? 'text-slate-300' : 'text-slate-600'}`}>
-              Career Manpower Pvt. Ltd.
-            </span>
-            <span className="text-[9px] font-semibold text-emerald-600 uppercase tracking-wider">
-              For Medical Department
-            </span>
-          </>
-        )}
-      </div>
+      )}
     </div>
   );
 };

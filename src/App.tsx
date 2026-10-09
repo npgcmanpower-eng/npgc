@@ -14,9 +14,12 @@ import { ApproachSection } from './components/ApproachSection';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
 import { EligibilityCheckerModal } from './components/EligibilityCheckerModal';
+import { AndroidSimulator } from './components/AndroidSimulator';
 import { CandidateProfession, DestinationRegion } from './types';
+import { Smartphone, Globe } from 'lucide-react';
 
 export default function App() {
+  const [viewMode, setViewMode] = useState<'android' | 'web'>('android');
   const [isEligibilityOpen, setIsEligibilityOpen] = useState(false);
   const [contactTab, setContactTab] = useState<'candidate' | 'employer' | 'consultation'>('candidate');
   const [prefilledSpecialty, setPrefilledSpecialty] = useState<string | undefined>(undefined);
@@ -57,8 +60,26 @@ export default function App() {
     scrollToContact('candidate');
   };
 
+  if (viewMode === 'android') {
+    return (
+      <div className="relative min-h-screen bg-slate-950">
+        <AndroidSimulator onSwitchToWeb={() => setViewMode('web')} />
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-[#f8fafc] text-slate-800 flex flex-col selection:bg-emerald-600 selection:text-white">
+    <div className="min-h-screen bg-[#f8fafc] text-slate-800 flex flex-col selection:bg-emerald-600 selection:text-white relative">
+      {/* View Switcher Floating Action */}
+      <button
+        onClick={() => setViewMode('android')}
+        className="fixed bottom-6 right-6 z-50 bg-[#0a2540] hover:bg-slate-800 text-white font-bold text-xs px-4 py-2.5 rounded-full shadow-2xl border border-emerald-500/50 flex items-center gap-2 hover:scale-105 transition-all"
+        title="Switch to Android App View"
+      >
+        <Smartphone className="w-4 h-4 text-emerald-400" />
+        <span>View Android Mobile App</span>
+      </button>
+
       {/* 3-Zone Navigation */}
       <Navbar
         onOpenEligibility={() => setIsEligibilityOpen(true)}

@@ -1,15 +1,8 @@
 import React, { useState } from 'react';
-import localLogo from '../assets/logo.png';
-import { OFFICIAL_NPGC_LOGO } from '../assets/officialLogoBase64';
 
-// Multi-tiered logo sources ensuring 100% reliable rendering across Vite, Vercel, and GitHub
-const LOGO_SOURCES = [
-  localLogo, // 1. Bundled asset (hashed and packaged by Vite into dist/assets)
-  '/logo.png', // 2. Direct Vercel public directory root path
-  'https://cdn.jsdelivr.net/gh/npgcmanpower-eng/npgc@main/public/logo.png', // 3. Fast global CDN from exact repo
-  'https://raw.githubusercontent.com/npgcmanpower-eng/npgc/main/public/logo.png', // 4. GitHub raw source fallback
-  OFFICIAL_NPGC_LOGO, // 5. Embedded inline base64 data URI (guaranteed zero network dependency)
-];
+// Logo lives in the /public folder at the repo root (public/npg-logo.png).
+// Vite serves everything in /public from the site root, so the path is "/npg-logo.png".
+const LOGO_SRC = '/npg-logo.png';
 
 interface BrandLogoProps {
   className?: string;
@@ -22,20 +15,11 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
   variant = 'compact',
   showSubtitle = true,
 }) => {
-  const [sourceIdx, setSourceIdx] = useState(0);
-  const [hasFailedAll, setHasFailedAll] = useState(false);
+  const [failed, setFailed] = useState(false);
   const isWhite = variant === 'white';
   const isFull = variant === 'full';
 
-  const handleImageError = () => {
-    if (sourceIdx < LOGO_SOURCES.length - 1) {
-      setSourceIdx((prev) => prev + 1);
-    } else {
-      setHasFailedAll(true);
-    }
-  };
-
-  // Vector fallback emblem if network/image fails completely
+  // Vector fallback emblem if the image fails to load
   const renderFallbackEmblem = (sizeClass: string) => (
     <div className={`flex items-center justify-center bg-gradient-to-br from-emerald-600 via-teal-700 to-[#0a2540] rounded-xl text-white shadow-xs ${sizeClass}`}>
       <svg
@@ -44,11 +28,9 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
         xmlns="http://www.w3.org/2000/svg"
         className="w-3/4 h-3/4"
       >
-        {/* Globe grid */}
         <circle cx="24" cy="24" r="20" stroke="currentColor" strokeWidth="2.5" opacity="0.3" />
         <ellipse cx="24" cy="24" rx="10" ry="20" stroke="currentColor" strokeWidth="2" opacity="0.3" />
         <line x1="4" y1="24" x2="44" y2="24" stroke="currentColor" strokeWidth="2" opacity="0.3" />
-        {/* Medical Cross */}
         <path
           d="M21 14h6v7h7v6h-7v7h-6v-7h-7v-6h7v-7z"
           fill="#34d399"
@@ -56,7 +38,6 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
           strokeWidth="1.5"
           strokeLinejoin="round"
         />
-        {/* Stethoscope Accent */}
         <path
           d="M12 28c0 7 5 12 12 12s12-5 12-12v-6"
           stroke="white"
@@ -72,13 +53,12 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
     return (
       <div className={`flex flex-col items-center text-center group ${className}`}>
         <div className="relative shrink-0 rounded-2xl bg-white p-2 border border-slate-200/90 shadow-md transition-transform group-hover:scale-105 mb-3">
-          {!hasFailedAll ? (
+          {!failed ? (
             <img
-              key={`full-${sourceIdx}`}
-              src={LOGO_SOURCES[sourceIdx]}
+              src={LOGO_SRC}
               alt="New Path Global Career Manpower Pvt Ltd"
               className="w-20 h-20 sm:w-24 sm:h-24 object-contain rounded-xl"
-              onError={handleImageError}
+              onError={() => setFailed(true)}
             />
           ) : (
             renderFallbackEmblem('w-20 h-20 sm:w-24 sm:h-24')
@@ -115,13 +95,12 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
   return (
     <div className={`flex items-center gap-3 group ${className}`}>
       <div className="relative shrink-0 rounded-xl bg-white p-1 border border-slate-200 shadow-xs transition-transform group-hover:scale-105">
-        {!hasFailedAll ? (
+        {!failed ? (
           <img
-            key={`compact-${sourceIdx}`}
-            src={LOGO_SOURCES[sourceIdx]}
+            src={LOGO_SRC}
             alt="New Path Global Career Manpower Pvt Ltd"
-            className="h-11 sm:h-13 w-auto object-contain rounded-lg"
-            onError={handleImageError}
+            className="h-11 sm:h-14 w-auto object-contain rounded-lg"
+            onError={() => setFailed(true)}
           />
         ) : (
           renderFallbackEmblem('w-12 h-12 sm:w-14 sm:h-14')
